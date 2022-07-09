@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+#content {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 2em;
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+}
+button {
+    margin: 1px;
+    border-radius: 5%;
+    font-weight: initial;
+    font-size: 2em;
+    font-family: monospace;
+    color: black;
+}
+button:active {
+    transform: translateY(2px);
+}
+.zero {
+    grid-column: span 2;
+    grid-column-start: span 2;
+    grid-column-end: auto;
+}
