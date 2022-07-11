@@ -22,6 +22,7 @@ button {
 }
 button:active {
     transform: translateY(2px);
+    background-color: dodgerblue;
 }
 .zero {
     grid-column: span 2;
