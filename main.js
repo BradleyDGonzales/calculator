@@ -1,4 +1,12 @@
-const equalsButton = document.getElementById(`equals`);
+/*
+        TODO:
+    1. signButton: changing coefficients to negative or back to positive and getting correct calculation
+    2. decimalButton: change to decimal, should probably check if coefficient has more than 1 decimal then it wont be able to calculate correctly (throw an alert?)
+    3. percentButton
+        
+        
+        
+*/const equalsButton = document.getElementById(`equals`);
 const coeffButton = document.querySelectorAll(`#coefficient`)
 const res = document.getElementById(`content`);
 const addButton = document.getElementById(`add`);
@@ -6,10 +14,12 @@ const subtractButton = document.getElementById(`subtract`);
 const multiplyButton = document.getElementById(`multiply`);
 const divisionButton = document.getElementById(`division`)
 const clearButton = document.getElementById(`clear`)
+const signButton = document.getElementById(`sign`);
 let firstCoefficient = ``;
 let secondCoefficient = ``;
 let signCount = 0;
-let initialized = false; //might need to use flags to check if a sign has already been initilialized
+let initialized = false; //might need to use flags to check if a sign has already been initilialized. TURNS OUT I WAS RIGHT LMAOOOOOOO
+let sign = ``;
 coeffButton.forEach(el => {
     el.addEventListener(`click`,function(e) {
         if (signCount === 0) {
@@ -22,16 +32,47 @@ coeffButton.forEach(el => {
         }
     })
 });
-
+signButton.addEventListener(`click`,function(e) {
+})
+equalsButton.addEventListener(`click`,function(e) {
+    switch(sign) {
+        case `add`:
+            operate(`add`,parseInt(firstCoefficient),parseInt(secondCoefficient));
+            break;
+        case `subtract`:
+            operate(`subtract`,parseInt(firstCoefficient),parseInt(secondCoefficient));
+            break;
+        case `multiply`:
+            operate(`multiply`,parseInt(firstCoefficient),parseInt(secondCoefficient));
+            break;
+        case `division`:
+            operate(`division`,parseInt(firstCoefficient),parseInt(secondCoefficient));
+            break; 
+    }
+    console.log(firstCoefficient);
+});
 clearButton.addEventListener(`click`, function(e) {
-    firstCoefficient = '';
+    firstCoefficient = ``;
+    secondCoefficient = ``;
+    sign = ``;
     res.textContent = 0;
     signCount = 0;
-})
+    initialized = false;
+});
 addButton.addEventListener(`click`,function(e) {
-    res.textContent = 0;
     let coeff1 = parseInt(firstCoefficient);
-
+    if (!initialized && secondCoefficient === ``) {
+        initialized = true;
+        sign = `add`;
+    }
+    else if (initialized) {
+        let fn = window[sign]; //add or subtract
+        operate(sign,parseInt(firstCoefficient),parseInt(secondCoefficient));
+        if (typeof fn === `function`) firstCoefficient = fn(parseInt(firstCoefficient),parseInt(secondCoefficient));
+        sign = `add`;
+        secondCoefficient = ``;
+        return;
+    }
     if (signCount >= 1) {
         let coeff2 = parseInt(secondCoefficient);
         operate(`add`,coeff1,coeff2);
@@ -43,9 +84,19 @@ addButton.addEventListener(`click`,function(e) {
     signCount++;
 });
 subtractButton.addEventListener(`click`,function(e) {
-    res.textContent = 0;
     let coeff1 = parseInt(firstCoefficient);
-
+    if (!initialized) {
+        initialized = true;
+        sign = `subtract`;
+    }
+    else if (initialized) {
+        let fn = window[sign];
+        operate(sign,parseInt(firstCoefficient),parseInt(secondCoefficient));
+        if (typeof fn === `function`) firstCoefficient = fn(parseInt(firstCoefficient),parseInt(secondCoefficient));
+        sign = `subtract`;
+        secondCoefficient = ``;
+        return;
+    }
     if (signCount >= 1) {
         let coeff2 = parseInt(secondCoefficient);
         operate(`subtract`,coeff1,coeff2);
@@ -57,9 +108,19 @@ subtractButton.addEventListener(`click`,function(e) {
     signCount++;
 });
 multiplyButton.addEventListener(`click`,function(e) {
-    res.textContent = 0;
     let coeff1 = parseInt(firstCoefficient);
-
+    if (!initialized) {
+        initialized = true;
+        sign = `multiply`;
+    }
+    else if (initialized) {
+        let fn = window[sign];
+        operate(sign,parseInt(firstCoefficient),parseInt(secondCoefficient));
+        if (typeof fn === `function`) firstCoefficient = fn(parseInt(firstCoefficient),parseInt(secondCoefficient));
+        sign = `multiply`;
+        secondCoefficient = ``;
+        return;
+    }
     if (signCount >= 1) {
         let coeff2 = parseInt(secondCoefficient);
         operate(`multiply`,coeff1,coeff2);
@@ -71,44 +132,29 @@ multiplyButton.addEventListener(`click`,function(e) {
     signCount++;
 });
 divisionButton.addEventListener(`click`,function(e) {
-    res.textContent = 0;
     let coeff1 = parseInt(firstCoefficient);
-
+    if (!initialized) {
+        initialized = true;
+        sign = `division`;
+    }
+    else if (initialized) {
+        let fn = window[sign];
+        operate(sign,parseInt(firstCoefficient),parseInt(secondCoefficient));
+        if (typeof fn === `function`) firstCoefficient = fn(parseInt(firstCoefficient),parseInt(secondCoefficient));
+        sign = `division`;
+        secondCoefficient = ``;
+        return;
+    }
     if (signCount >= 1) {
         let coeff2 = parseInt(secondCoefficient);
-        operate(`divide`,coeff1,coeff2);
-        let newcoeff1 = divide(coeff1,coeff2);
+        operate(`division`,coeff1,coeff2);
+        let newcoeff1 = division(coeff1,coeff2);
         coeff1 = newcoeff1;
         firstCoefficient = coeff1;
         secondCoefficient = ``;
     }
     signCount++;
 });
-
-    /*if (signCount > 1) {
-
-    }
-    if (addCount > 1) {
-        operate()
-    }
-    if (addCount !== 0) {
-        let coeff2 = parseInt(secondCoefficient);
-        let newcoeff1 = add(coeff1,coeff2);
-        if (addCount === 1) {
-            operate(`add`,coeff1,coeff2);
-        }
-        if (addCount > 1) {
-            coeff1 = newcoeff1;
-            operate(`add`,coeff1,coeff2)
-            secondCoefficient = ``;
-        }
-    }
-});*/
-equalsButton.addEventListener(`click`,function(e) {
-    signCount = 0;
-
-})
-
 function add(coeff1,coeff2) {
     return coeff1 + coeff2;
 }
@@ -118,7 +164,7 @@ function subtract(coeff1,coeff2) {
 function multiply(coeff1,coeff2) {
     return coeff1 * coeff2;
 }
-function divide(coeff1,coeff2) {
+function division(coeff1,coeff2) {
     return coeff1 / coeff2;
 }
 function operate(operator,coeff1,coeff2) {
@@ -132,8 +178,8 @@ function operate(operator,coeff1,coeff2) {
         case `multiply`:
             res.textContent = multiply(coeff1,coeff2);
             break;
-        case `divide`:
-            res.textContent = divide(coeff1,coeff2);
+        case `division`:
+            res.textContent = division(coeff1,coeff2);
             break;
     }
 }
