@@ -6,7 +6,8 @@
         
         
         
-*/const equalsButton = document.getElementById(`equals`);
+*/
+const equalsButton = document.getElementById(`equals`);
 const coeffButton = document.querySelectorAll(`#coefficient`)
 const res = document.getElementById(`content`);
 const addButton = document.getElementById(`add`);
