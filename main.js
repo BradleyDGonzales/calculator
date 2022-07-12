@@ -9,6 +9,7 @@ const clearButton = document.getElementById(`clear`)
 let firstCoefficient = ``;
 let secondCoefficient = ``;
 let signCount = 0;
+let initialized = false; //might need to use flags to check if a sign has already been initilialized
 coeffButton.forEach(el => {
     el.addEventListener(`click`,function(e) {
         if (signCount === 0) {
