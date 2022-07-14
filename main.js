@@ -7,6 +7,7 @@
         
 07/13 = changed parseInt/parseFloat to Number(); seemed to have made everything a lot more clearer but we'll see.
 07/13 = I think percentButton is working now.. but tbh unsure. It can be a bit buggy but currently too tired to QA it. NOTE: test out the percent button correctly!!!!
+07/13 = also check if equals works, meaning evaluate something fully by pressing equals then continue operations by add, subtract, multiply, division. i noticed this as i was about to log off so check!!!
 */
 const equalsButton = document.getElementById(`equals`);
 const coeffButton = document.querySelectorAll(`#coefficient`)
@@ -101,7 +102,14 @@ equalsButton.addEventListener(`click`,function(e) {
 });
 clearButton.addEventListener(`click`, clearData);
 addButton.addEventListener(`click`,function(e) {
-    let coeff1 = Number(firstCoefficient);
+    let coeff1;
+    if (equalsButtonPressed) {
+        sign = `add`;
+        coeff1 = Number(res.textContent)
+        firstCoefficient = coeff1;
+        secondCoefficient = ``;
+        return;
+    }
     if (!initialized && secondCoefficient === ``) {
         initialized = true;
         sign = `add`;
@@ -126,7 +134,14 @@ addButton.addEventListener(`click`,function(e) {
     signCount++;
 });
 subtractButton.addEventListener(`click`,function(e) {
-    let coeff1 = Number(firstCoefficient);
+    let coeff1;
+    if (equalsButtonPressed) {
+        sign = `subtract`;
+        coeff1 = Number(res.textContent)
+        firstCoefficient = coeff1;
+        secondCoefficient = ``;
+        return;
+    }
     if (!initialized && secondCoefficient === ``) {
         initialized = true;
         sign = `subtract`;
@@ -151,7 +166,17 @@ subtractButton.addEventListener(`click`,function(e) {
     signCount++;
 });
 multiplyButton.addEventListener(`click`,function(e) {
-    let coeff1 = Number(firstCoefficient);
+    let coeff1;
+    if (equalsButtonPressed) {
+        sign = `multiply`;
+        coeff1 = Number(res.textContent)
+        firstCoefficient = coeff1;
+        secondCoefficient = ``;
+        return;
+    }
+    else {
+        coeff1 = Number(firstCoefficient);
+    }
     if (!initialized && secondCoefficient === ``) {
         initialized = true;
         sign = `multiply`;
@@ -176,7 +201,14 @@ multiplyButton.addEventListener(`click`,function(e) {
     signCount++;
 });
 divisionButton.addEventListener(`click`,function(e) {
-    let coeff1 = Number(firstCoefficient);
+    let coeff1;
+    if (equalsButtonPressed) {
+        sign = `division`;
+        coeff1 = Number(res.textContent)
+        firstCoefficient = coeff1;
+        secondCoefficient = ``;
+        return;
+    }
     if (!initialized && secondCoefficient === ``) {
         initialized = true;
         sign = `division`;
