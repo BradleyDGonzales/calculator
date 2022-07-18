@@ -1,18 +1,3 @@
-/*
-        TODO:
-    1. signButton: changing coefficients to negative or back to positive and getting correct calculation (//)
-    2. decimalButton: change to decimal, should probably check if coefficient has more than 1 decimal then it wont be able to calculate correctly (throw an alert?)
-    3. percentButton (//)
-    4. fix decimals not implementing when pressing equals sign as a whole number
-    5. fix a lot of shit lol keep QA'ing the calculator
-        
-        
-07/13 = changed parseInt/parseFloat to Number(); seemed to have made everything a lot more clearer but we'll see.
-07/13 = I think percentButton is working now.. but tbh unsure. It can be a bit buggy but currently too tired to QA it. NOTE: test out the percent button correctly!!!!
-07/13 = also check if equals works, meaning evaluate something fully by pressing equals then continue operations by add, subtract, multiply, division. i noticed this as i was about to log off so check!!!
-07/14 = everything seems to work, only issue is that the calculator only accepts 2 decimal inputs. need to fix!!!
-
-*/
 const equalsButton = document.getElementById(`equals`);
 const coeffButton = document.querySelectorAll(`#coefficient`)
 const res = document.getElementById(`content`);
